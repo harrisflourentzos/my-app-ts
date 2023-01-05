@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -7,11 +6,10 @@ import {
   TextInput,
   View,
   FlatList,
-  ListRenderItem,
   ListRenderItemInfo,
 } from "react-native";
-
-type Goal = { name: string; id: string };
+import GoalItem from "./components/GoalItem";
+import Goal from "./data/goal";
 
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState("");
@@ -31,11 +29,10 @@ export default function App() {
   };
 
   const renderItems = (item: ListRenderItemInfo<Goal>) => (
-    <View style={styles.goalItemView}>
-      <Text style={styles.goalItemIndexText}>{item.index}</Text>
-      <Text style={styles.goalItemNameText}>{item.item.name}</Text>
-      <Button title="Delete"></Button>
-    </View>
+    <GoalItem
+      itemIndex={item.index.toString()}
+      itemName={item.item.name}
+    ></GoalItem>
   );
 
   return (
@@ -74,27 +71,5 @@ const styles = StyleSheet.create({
     marginRight: 10,
     padding: 10,
     width: "70%",
-  },
-  goalItemView: {
-    flexDirection: "row",
-    alignContent: "stretch",
-    marginBottom: 5,
-  },
-  goalItemIndexText: {
-    color: "white",
-    marginRight: 10,
-    backgroundColor: "grey",
-    textAlignVertical: "center",
-    padding: 5,
-    borderRadius: 5,
-  },
-  goalItemNameText: {
-    color: "white",
-    flex: 6,
-    backgroundColor: "grey",
-    marginRight: 10,
-    textAlignVertical: "center",
-    padding: 5,
-    borderRadius: 5,
   },
 });
