@@ -47,7 +47,11 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <Button title="Add Goal" onPress={startInputtingGoalHandler} />
+      <Button
+        title="Add Goal"
+        onPress={startInputtingGoalHandler}
+        color="#026cf7"
+      />
       <GoalInput
         onAddGoal={addGoalHandler}
         startInputtingGoal={startInputtingGoal}
@@ -65,6 +69,11 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-  appContainer: { paddingTop: 50, paddingHorizontal: 15, flex: 1 },
-  goalsContainer: { paddingVertical: 10 },
+  appContainer: {
+    flex: 1,
+    paddingTop: 50,
+    paddingHorizontal: 15,
+    backgroundColor: "#22263b",
+  },
+  goalsContainer: { paddingVertical: 20, paddingHorizontal: 10 },
 });
