@@ -1,14 +1,19 @@
 import { View, Text, StyleSheet, Button } from "react-native";
 import React from "react";
 
-type Props = { itemIndex: string; itemName: string };
+type Props = {
+  itemIndex: string;
+  itemName: string;
+  itemId: string;
+  onDeleteGoal: (goalId: string) => void;
+};
 
 const goalItem = (props: Props) => {
   return (
     <View style={styles.goalItemView}>
       <Text style={styles.goalItemIndexText}>{props.itemIndex}</Text>
       <Text style={styles.goalItemNameText}>{props.itemName}</Text>
-      <Button title="Delete"></Button>
+      <Button title="Delete" onPress={() => props.onDeleteGoal(props.itemId)} />
     </View>
   );
 };

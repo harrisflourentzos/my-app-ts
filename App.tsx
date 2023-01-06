@@ -1,12 +1,11 @@
+import { setStatusBarBackgroundColor } from "expo-status-bar";
 import { useState } from "react";
 import {
-  Button,
   StyleSheet,
-  Text,
-  TextInput,
   View,
   FlatList,
   ListRenderItemInfo,
+  Button,
 } from "react-native";
 import GoalInput from "./components/GoalInput";
 import GoalItem from "./components/GoalItem";
@@ -14,6 +13,7 @@ import Goal from "./data/goal";
 
 export default function App() {
   const [goals, setGoals] = useState(new Array<Goal>());
+  const [startInputtingGoal, setStartInputtingGoal] = useState(false);
 
   const addGoalHandler = (goal: string) => {
     if (!goal.trim()) return;
@@ -24,13 +24,35 @@ export default function App() {
     ]);
   };
 
+  const deleteGoalHandler = (id: string) => {
+    setGoals((currentGoals) => currentGoals.filter((g) => g.id != id));
+  };
+
   const renderItems = (item: ListRenderItemInfo<Goal>) => (
-    <GoalItem itemIndex={item.index.toString()} itemName={item.item.name} />
+    <GoalItem
+      itemIndex={(item.index + 1).toString()}
+      itemName={item.item.name}
+      itemId={item.item.id}
+      onDeleteGoal={deleteGoalHandler}
+    />
   );
+
+  const startInputtingGoalHandler = () => {
+    setStartInputtingGoal(true);
+  };
+
+  const stopInputtingGoalHandler = () => {
+    setStartInputtingGoal(false);
+  };
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput addGoalHandler={addGoalHandler} />
+      <Button title="Add Goal" onPress={startInputtingGoalHandler} />
+      <GoalInput
+        onAddGoal={addGoalHandler}
+        startInputtingGoal={startInputtingGoal}
+        cancelInputtingGoal={stopInputtingGoalHandler}
+      />
       <View style={styles.goalsContainer}>
         <FlatList
           data={goals}
@@ -44,5 +66,5 @@ export default function App() {
 
 const styles = StyleSheet.create({
   appContainer: { paddingTop: 50, paddingHorizontal: 15, flex: 1 },
-  goalsContainer: { flex: 5 },
+  goalsContainer: { paddingVertical: 10 },
 });

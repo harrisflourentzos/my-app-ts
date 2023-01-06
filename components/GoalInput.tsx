@@ -1,7 +1,11 @@
-import { View, Button, StyleSheet, TextInput } from "react-native";
+import { View, Button, StyleSheet, TextInput, Modal } from "react-native";
 import React, { useState } from "react";
 
-type Props = { addGoalHandler: (goal: string) => void };
+type Props = {
+  onAddGoal: (goal: string) => void;
+  startInputtingGoal: boolean;
+  cancelInputtingGoal: () => void;
+};
 
 const goalInput = (props: Props) => {
   const [enteredGoalText, setEnteredGoalText] = useState("");
@@ -11,36 +15,51 @@ const goalInput = (props: Props) => {
   };
 
   const addGoalHandler = () => {
-    props.addGoalHandler(enteredGoalText);
+    props.onAddGoal(enteredGoalText);
     setEnteredGoalText("");
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Your course goal!"
-        onChangeText={goalInputHandler}
-        value={enteredGoalText}
-      />
-      <Button onPress={addGoalHandler} title="Add Goal" />
-    </View>
+    <Modal visible={props.startInputtingGoal} animationType="slide">
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Your course goal!"
+          onChangeText={goalInputHandler}
+          value={enteredGoalText}
+        />
+        <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button onPress={addGoalHandler} title="Add Goal" />
+          </View>
+          <View style={styles.button}>
+            <Button title="Cancel" onPress={props.cancelInputtingGoal} />
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 };
 
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
   },
   textInput: {
     borderWidth: 1,
     borderColor: "#cccccc",
-    marginRight: 10,
     padding: 10,
-    width: "70%",
+    width: "90%",
+  },
+  buttonContainer: {
+    margin: 10,
+    flexDirection: "row",
+  },
+  button: {
+    width: "30%",
+    marginHorizontal: 8,
   },
 });
 
