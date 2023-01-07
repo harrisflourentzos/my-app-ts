@@ -1,4 +1,4 @@
-import { setStatusBarBackgroundColor } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import {
   StyleSheet,
@@ -46,25 +46,28 @@ export default function App() {
   };
 
   return (
-    <View style={styles.appContainer}>
-      <Button
-        title="Add Goal"
-        onPress={startInputtingGoalHandler}
-        color="#026cf7"
-      />
-      <GoalInput
-        onAddGoal={addGoalHandler}
-        startInputtingGoal={startInputtingGoal}
-        cancelInputtingGoal={stopInputtingGoalHandler}
-      />
-      <View style={styles.goalsContainer}>
-        <FlatList
-          data={goals}
-          renderItem={renderItems}
-          keyExtractor={(item, index) => item.id}
+    <>
+      <StatusBar style="light" />
+      <View style={styles.appContainer}>
+        <Button
+          title="Add Goal"
+          onPress={startInputtingGoalHandler}
+          color="#026cf7"
         />
+        <GoalInput
+          onAddGoal={addGoalHandler}
+          startInputtingGoal={startInputtingGoal}
+          cancelInputtingGoal={stopInputtingGoalHandler}
+        />
+        <View style={styles.goalsContainer}>
+          <FlatList
+            data={goals}
+            renderItem={renderItems}
+            keyExtractor={(item, index) => item.id}
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
@@ -73,7 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 15,
-    backgroundColor: "#22263b",
   },
   goalsContainer: { paddingVertical: 20, paddingHorizontal: 10 },
 });
